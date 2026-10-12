@@ -115,3 +115,8 @@ author believed. That part is step 8, in a real app.
   in another. The script treats both as "no pane", and a test covers each.
 - **Company Name** is a customer lookup, so it can hold a contact. The script closes the pane in
   that case rather than navigating an account page to a contact ID.
+- `setValue` doesn't raise a column's OnChange event, which is why `pickCompany` calls
+  `fireOnChange()` ([Column OnChange event](https://learn.microsoft.com/power-apps/developer/model-driven-apps/clientapi/reference/events/attribute-onchange)).
+- The same article advises against asynchronous OnChange handlers whose follow-up depends on the
+  form's context staying the same. `syncCompanyPane` is async, so it reads everything it needs
+  from the form before its first `await`, and after that it only touches the side pane.
